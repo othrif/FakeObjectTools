@@ -1,0 +1,27 @@
+Order of operations:
+
+# to measure the fake factor, obtain the num (ID) and den (antiID) distributions
+source measureFF_SMWZ_2015_runAll.sh;
+
+# determine the data-to-MC ttbar SF in the ltt/tlt/ttl configurations,
+# so you can subtract ttbar from the ZCR before applying the fake factor
+source measure_ttbar_ZCR_SF_SMWZ_2015_runAll.sh;
+
+# apply the fake factor to the ZCR which has ltt/tlt/ttl configurations,
+# and see what your fake estimate in the numerator is (and subtract 
+# the corrected ttbar from the data)
+source applyFF_SMWZ_2015_runAll.sh;
+
+# measure ttbar SR SF in the DFOS CR to obtain the SR ttbar estimate
+source measure_ttbar_SR_SF_SMWZ_2015_runAll.sh;
+
+# actually measure the ttbar SR estimate
+source measure_ttbar_SR_estimate_SMWZ_2015_runAll.sh
+
+# NEED TO ADD
+# Z+jet syst uncertainties, including:
+#   MC closure systematic
+#   composition systematic
+#   others
+#
+# also the ttbar extrapolation systematic (?)

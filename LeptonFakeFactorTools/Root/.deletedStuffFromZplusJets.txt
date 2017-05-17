@@ -1,0 +1,99 @@
+Things removed from the Z+jets calculator but maybe useful still?
+Saving them for posterity for the moment
+
+==================================================================
+#
+# before doing trigger pt thresholds + trig matching:
+#
+
+  // Look at truth information, when applicable
+  // Enum from pennSoftLepton is:
+  //  NoTruthLabel
+  //  ,LeptonW
+  //  ,LeptonZ
+  //  ,LeptonSUSY
+  //  ,LeptonTtbar
+  //  ,LeptonJpsi
+  //  ,LeptonUnknown
+  //  ,LeptonTau
+  //  ,PhotonOrPi0
+  //  ,PhotonOrPi0Leptonic
+  //  ,PiPlusMinusHadronic
+  //  ,PiPlusMinusLeptonic
+  //  ,KaonHadronic
+  //  ,KaonLeptonic
+  //  ,CjetHadronic
+  //  ,CjetLeptonic
+  //  ,BjetHadronic
+  //  ,BjetLeptonic
+  //  ,LightjetHadronic
+  //  ,LightjetLeptonic
+  //  ,NonPrimary
+  //  ,ElectronAsMuon
+  //  ,ElMagProc
+  //  ,PhotonInMeson
+  //  ,IsoElectronFromCCbar
+  //  ,IsoElectronFromBBbar
+  //  ,PhotonOrElectronAmbiguous
+
+  bool truth_leadz    = evt.lepTruthDetailed.at(SFOS_lep1index) == 2;
+  bool truth_subleadz = evt.lepTruthDetailed.at(SFOS_lep2index) == 2;
+  bool truth_w        = evt.lepTruthDetailed.at(index_wcand) == 1;
+
+  int index_truthFake = -1;
+  int type_fake_forTopEstimate = -1;
+
+  if( ((int)truth_leadz + (int)truth_subleadz + (int)truth_w) == 3 ){
+    // ERROR! Three real leptons!
+    index_truthFake = index_wcand;
+  }
+  else if( ((int)truth_leadz + (int)truth_subleadz + (int)truth_w) == 1 ){
+    // ERROR! Only one real lepton!
+    index_truthFake = index_wcand;
+  }
+  else if( ((int)truth_leadz + (int)truth_subleadz + (int)truth_w) == 0 ){
+    // ERROR! No real leptons!
+    index_truthFake = index_wcand;
+  }
+  else{
+    if(!truth_leadz){
+      // Leading Z lepton is fake
+      index_truthFake = SFOS_lep1index;
+      type_fake_forTopEstimate = evt.lepFlavor.at(SFOS_lep1index);
+    }
+    else if(!truth_subleadz){
+      // Subleading Z lepton is fake
+      index_truthFake = SFOS_lep2index;
+      type_fake_forTopEstimate = evt.lepFlavor.at(SFOS_lep2index);
+    }
+    else if(!truth_w){
+      // W lepton is fake
+      index_truthFake = index_wcand;
+      type_fake_forTopEstimate = evt.lepFlavor.at(index_wcand);
+    }
+  }
+
+  // FIXME: maybe include this trigger req for the syst tests as was done by Kurt 
+  // in the ttt case?
+
+  // FIXME: do we want this ttbar truth assignment stuff? what is the weight adjustment
+  // by a factor of 0.81 or 1.53? my guess is a cross section or kfactor for el vs mu?
+
+==================================================================
+#
+# after index_fake = index_wcand; in the ltt block where
+# lep ID criteria are checked
+#
+
+
+    // FIXME do I still need this hacked 20 GeV pt cut (which affects ZID only)?
+    if(m_do_SR && (evt.lepPt.at(index_fake) < 20)) return false;
+
+==================================================================
+#
+# Inside the "FILL IN FAKE PLOTS" block, before actually filling in the denominator
+#
+
+    //if(!m_mcclosure){ // FIXME
+    if(true){
+

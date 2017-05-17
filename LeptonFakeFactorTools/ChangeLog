@@ -1,0 +1,266 @@
+2017-04-20 Joseph Reichert <Joseph.Reichert@cern.ch>
+	* Added latest updates from high mass 3L analysis
+	* Largely includes changes to SFs and FFs, but also some plotting
+	improvements
+
+2017-03-29 Joseph Reichert <Joseph.Reichert@cern.ch>
+	* Small adjustment for HistFitterTree (so data and MC can be in the
+	same file in the end)
+	* Added Zwindow veto to look off-Zpeak
+	* Added config files for ttbar VR
+	* M       Root/ZplusJetsFakeFactorCalculator.cxx
+	* M       Root/BaseFakeFactorCalculator.cxx
+	* M       macros/measureTtbarZCRSF.cxx
+	* M       macros/measureTtbarSRSF.cxx
+	* M       LeptonFakeFactorTools/BaseFakeFactorCalculator.h
+	* A       data/Inclusive/ttbar_VR_Numerator.conf
+	* A       data/Inclusive/ttbar_VR_Denominator.conf
+	* M       util/runZplusJetsOverFakeNtuples.cxx
+
+2017-03-20 Joseph Reichert <Joseph.Reichert@cern.ch>
+	* Adding HistFitterTree outputs
+	* Also a few more config files
+	* A	  data/Inclusive/FakesValidationRegionDenominator_LowMETOrthogonal.conf
+	* A       data/Inclusive/HFT_Numerator.conf
+	* A       data/Inclusive/HFT_Denominator.conf
+	* A	  data/Inclusive/FakesValidationRegionNumerator_LowMETOrthogonal.conf
+	* M       util/runZplusJetsOverFakeNtuples.cxx
+
+2017-03-11 Joseph Reichert <Joseph.Reichert@cern.ch>
+	* Many recent improvements (should have committed sooner!)
+	* Fixes to Zjet calculator for ttbar syst errors, bugfix for trigger
+	matching, and properly handle FF uncertainties.
+	* Adding current FF file (which includes the errors), and hardcoded
+	into the Base calculator
+	* Improvements to the helper macros. Handle uncertainties better,
+	cosemetic changes, and some fixes to which samples the macros use as
+	input (e.g. we accidentally subtracted MC Zjet from our data-driven
+	Zjet estimate before!)
+	* Adjusting config files for current SR definitions, and adding
+	configs for our extra VRs and CRs. This should be improved in the
+	future.
+	* Extra vars to output to small ntuples for making e.g. VR plots
+	* M       Root/ZplusJetsFakeFactorCalculator.cxx
+	* M       Root/BaseFakeFactorCalculator.cxx
+	* M       Root/ApplyFakeFactor.cxx
+	* A       macros/measureTtbarSREstimateStatSyst.cxx
+	* D       macros/measureTtbarSREstimate.cxx
+	* M       macros/takeRatioForFakeFactor.cxx
+	* A       macros/AtlasStyle.C
+	* M       macros/measureTtbarZCRSF.cxx
+	* A       macros/systematics/getDibosonSubtractionSyst.cxx
+	* A       macros/systematics/getMCClosureSyst.cxx
+	* A       macros/systematics/getTotalSyst.cxx
+	* M       macros/systematics/takeDiffBetVariations.cxx
+	* M       macros/systematics/combineVariations.cxx
+	* A       macros/analyzeDenTimesFFStatSyst.cxx
+	* D       macros/analyzeDenTimesFF.cxx
+	* A       macros/AtlasStyle.h
+	* M       macros/measureTtbarSRSF.cxx
+	* M       LeptonFakeFactorTools/BaseFakeFactorCalculator.h
+	* M       LeptonFakeFactorTools/EventDef.h
+	* M       LeptonFakeFactorTools/ZplusJetsFakeFactorCalculator.h
+	* M       data/measure_ttbar_SR_SF/FakeFactorConfigs_Nominal.conf
+	* M       data/measure_ttbar_SR_estimate/FakeFactorConfigs_Nominal.conf
+	* A       data/Inclusive/FakesValidationRegionNumerator_LowMET.conf
+	* A       data/Inclusive/FakesValidationRegionDenominator_LowMET.conf
+	* A       data/Inclusive/WZCR0Numerator.conf
+	* A       data/Inclusive/WZCR1Numerator.conf
+	* M       data/Inclusive/ttbar_SRSF_WithBVeto.conf
+	* A       data/Inclusive/WZCR0Denominator.conf
+	* M       data/Inclusive/Zjet_FF_calculation.conf
+	* A       data/Inclusive/WZCR1Denominator.conf
+	* M       data/Inclusive/ttbar_SRSF.conf
+	* M       data/Inclusive/ttbar_ZCRSF_WithBVeto.conf
+	* A       data/Inclusive/WZCRNumerator.conf
+	* M       data/Inclusive/ttbar_ZCRSF.conf
+	* A       data/Inclusive/WZVR0Numerator.conf
+	* A       data/Inclusive/WZCRDenominator.conf
+	* A       data/Inclusive/WZVR1Numerator.conf
+	* A       data/Inclusive/FakesValidationRegionNumerator_LowMT.conf
+	* M       data/Inclusive/MCFF_MeasureInSR.conf
+	* A       data/Inclusive/WZVR0Denominator.conf
+	* A       data/Inclusive/WZVR1Denominator.conf
+	* A       data/Inclusive/FakesValidationRegionDenominator_LowMT.conf
+	* M       data/measure_ttbar_ZCR_SF/FakeFactorConfigs_Nominal.conf
+	* A       data/FakeFactors_March9_2017_FixJetEtaCut.root
+	* M       data/Zjet_FF_calculation/FakeFactorConfigs_SR.conf
+	* M	  data/Zjet_FF_calculation/FakeFactorConfigs_Zjet_FF_calculation.conf
+	* M       data/SR1/ApplyFakeFactorToZjet.conf
+	* M       data/SR1/ttbar_MeasureSREstimate.conf
+	* M       data/SR2/ApplyFakeFactorToZjet.conf
+	* M       data/SR2/ttbar_MeasureSREstimate.conf
+	* M       data/SR3/ApplyFakeFactorToZjet.conf
+	* M       data/SR3/ttbar_MeasureSREstimate.conf
+	* M       data/SR4/ApplyFakeFactorToZjet.conf
+	* M       data/SR4/ttbar_MeasureSREstimate.conf
+	* M       data/SR5/ApplyFakeFactorToZjet.conf
+	* M       data/SR5/ttbar_MeasureSREstimate.conf
+	* M       data/SR6/ApplyFakeFactorToZjet.conf
+	* M       data/SR6/ttbar_MeasureSREstimate.conf
+	* M       data/applyFakeFactorToZjet/FakeFactorConfigs_Nominal.conf
+	* M       util/runZplusJetsOverFakeNtuples.cxx
+
+
+2017-02-13 Joseph Reichert <Joseph.Reichert@cern.ch>
+	* Cleanup, and reorganize conf files for the SRs + the FF measurement
+	* M       Root/ZplusJetsFakeFactorCalculator.cxx
+	* M       macros/takeRatioForFakeFactor.cxx
+	* M       macros/analyzeDenTimesFF.cxx
+	* A       data/Inclusive
+	* A       data/Inclusive/ttbar_ZCRSF_WithBVeto.conf
+	* A       data/Inclusive/ttbar_ZCRSF.conf
+	* A       data/Inclusive/ttbar_SRSF_WithBVeto.conf
+	* A       data/Inclusive/Zjet_FF_calculation.conf
+	* A       data/Inclusive/MCFF_MeasureInSR.conf
+	* A       data/Inclusive/ttbar_SRSF.conf
+	* A       data/SR1
+	* A       data/SR1/ApplyFakeFactorToZjet.conf
+	* A       data/SR1/ttbar_MeasureSREstimate.conf
+	* A       data/SR2
+	* A       data/SR2/ApplyFakeFactorToZjet.conf
+	* A       data/SR2/ttbar_MeasureSREstimate.conf
+	* A       data/SR3
+	* A       data/SR3/ApplyFakeFactorToZjet.conf
+	* A       data/SR3/ttbar_MeasureSREstimate.conf
+	* A       data/SR4
+	* A       data/SR4/ApplyFakeFactorToZjet.conf
+	* A       data/SR4/ttbar_MeasureSREstimate.conf
+	* A       data/SR5
+	* A       data/SR5/ApplyFakeFactorToZjet.conf
+	* A       data/SR5/ttbar_MeasureSREstimate.conf
+	* A       data/SR6
+	* A       data/SR6/ApplyFakeFactorToZjet.conf
+	* A       data/SR6/ttbar_MeasureSREstimate.conf
+	* M       util/runZplusJetsOverFakeNtuples.cxx
+
+2017-02-10 Joseph Reichert <Joseph.Reichert@cern.ch>
+	* Adding configurables for lepton pT and leading jet pT
+	* M       Root/ZplusJetsFakeFactorCalculator.cxx
+	* M       Root/BaseFakeFactorCalculator.cxx
+	* M       LeptonFakeFactorTools/BaseFakeFactorCalculator.h
+	* M       LeptonFakeFactorTools/EventDef.h
+	* M       data/measure_ttbar_ZCR_SF/FakeFactorConfigs_Nominal.conf
+	* A       data/Zjet_FF_calculation/FakeFactorConfigs_SR.conf
+	* M	  data/Zjet_FF_calculation/FakeFactorConfigs_Zjet_FF_calculation.conf
+	* M       data/measure_ttbar_SR_SF/FakeFactorConfigs_Nominal.conf
+	* M       data/applyFakeFactorToZjet/FakeFactorConfigs_Nominal.conf
+	* M       data/measure_ttbar_SR_estimate/FakeFactorConfigs_Nominal.conf
+	* M       util/runZplusJetsOverFakeNtuples.cxx
+
+2017-02-10 Joseph Reichert <Joseph.Reichert@cern.ch>
+	* Reorganization of Z+jets calculator (including hardcoded pT cuts
+	that I'll replace shortly with configurables)
+	* Adjust runZplusJetsOverFakeNtuples to include EM crack
+	* Update to use current FF file (should also become configurable
+	eventually)
+	* Change macros to look for all.root instead of hadded/all.root
+	* Add missing backgrounds to the macros
+	* Change confs to use old 3L SR cuts (soon to be updated to latest SRs)
+	* M       Root/ZplusJetsFakeFactorCalculator.cxx
+	* M       Root/BaseFakeFactorCalculator.cxx
+	* M       macros/measureTtbarSREstimate.cxx
+	* M       macros/takeRatioForFakeFactor.cxx
+	* M       macros/measureTtbarZCRSF.cxx
+	* M       macros/analyzeDenTimesFF.cxx
+	* M       macros/measureTtbarSRSF.cxx
+	* M       data/measure_ttbar_ZCR_SF/FakeFactorConfigs_Nominal.conf
+	* A       data/FakeFactor_Feb1.root
+	* M	  data/Zjet_FF_calculation/FakeFactorConfigs_Zjet_FF_calculation.conf
+	* M       data/measure_ttbar_SR_SF/FakeFactorConfigs_Nominal.conf
+	* M       data/applyFakeFactorToZjet/FakeFactorConfigs_Nominal.conf
+	* M       data/measure_ttbar_SR_estimate/FakeFactorConfigs_Nominal.conf
+	* M       util/runZplusJetsOverFakeNtuples.cxx
+
+2017-01-17 Joseph Reichert <Joseph.Reichert@cern.ch>
+	* Extra vars for SR definition to apply fake factor to
+	* Remove scaling by 1.15 factor for WZ
+	* M       Root/ZplusJetsFakeFactorCalculator.cxx
+	* M       Root/BaseFakeFactorCalculator.cxx
+	* M       LeptonFakeFactorTools/BaseFakeFactorCalculator.h
+	* M       LeptonFakeFactorTools/EventDef.h
+	* M       util/runZplusJetsOverFakeNtuples.cxx
+
+2017-01-10 Joseph Reichert <Joseph.Reichert@cern.ch>
+	* Work on systematic uncertainties
+	* Streamline some of the code
+	* M       Root/ApplyFakeFactor.cxx
+	* A       macros/systematics
+	* A       macros/systematics/takeDiffBetVariations.cxx
+	* A       macros/systematics/combineVariations.cxx
+	* M       LeptonFakeFactorTools/ApplyFakeFactor.h
+
+2017-01-09 Joseph Reichert <Joseph.Reichert@cern.ch>
+	* Add VV scaling (to eventually use for syst uncertainty) when
+	obtaining the fake factor
+	* isSRLike flag for EventDef
+	* Remove SFs from Z+jet tool (since analyzer probably already applies
+	their SFs ahead of time anyway)
+	* Some reorganization
+	* M       Root/EventDef.cxx
+	* M       Root/ZplusJetsFakeFactorCalculator.cxx
+	* M       macros/takeRatioForFakeFactor.cxx
+	* M       LeptonFakeFactorTools/EventDef.h
+	* M       util/testZplusJetsWithPSLFakeNtuples.cxx
+	* M       util/runZplusJetsOverFakeNtuples.cxx
+
+2017-01-06 Joseph Reichert <Joseph.Reichert@cern.ch>
+	* Handle dilepton trigger matching properly (to make sure the fake
+	didn't fire the trigger, but the other two leps did), as well as add
+	the option to do dilepton vs. single lepton
+	* M       Root/EventDef.cxx
+	* M       Root/ZplusJetsFakeFactorCalculator.cxx
+	* M       LeptonFakeFactorTools/EventDef.h
+	* M       util/testZplusJetsWithPSLFakeNtuples.cxx
+	* M       util/runZplusJetsOverFakeNtuples.cxx
+
+2016-12-22 Joseph Reichert <Joseph.Reichert@cern.ch>
+	* Starting to improve trigger treatment, to make it more general
+	* M       Root/ZplusJetsFakeFactorCalculator.cxx
+	* M       Root/BaseFakeFactorCalculator.cxx
+	* M       LeptonFakeFactorTools/BaseFakeFactorCalculator.h
+	* M       data/measure_ttbar_ZCR_SF/FakeFactorConfigs_Nominal.conf
+	* M	  data/Zjet_FF_calculation/FakeFactorConfigs_Zjet_FF_calculation.conf
+	* M       data/measure_ttbar_SR_SF/FakeFactorConfigs_Nominal.conf
+	* M       data/applyFakeFactorToZjet/FakeFactorConfigs_Nominal.conf
+	* M	  data/applyFakeFactorToZjet/FakeFactorConfigs_MCClosure_DenTimesFF.conf
+	* M	  data/applyFakeFactorToZjet/FakeFactorConfigs_MCClosure_Numerator.conf
+	* M       data/measure_ttbar_SR_estimate/FakeFactorConfigs_Nominal.conf
+
+2016-12-21 Joseph Reichert <Joseph.Reichert@cern.ch>
+	* Adding minMT to the tool, for assigning leptons to the W or Z
+	* Removing unused variables; could always add them back in if needed
+	* M       Root/ZplusJetsFakeFactorCalculator.cxx
+	* M       Root/BaseFakeFactorCalculator.cxx
+	* M       Root/ApplyFakeFactor.cxx
+	* M       LeptonFakeFactorTools/BaseFakeFactorCalculator.h
+	* M       data/measure_ttbar_ZCR_SF/FakeFactorConfigs_Nominal.conf
+	* M	  data/Zjet_FF_calculation/FakeFactorConfigs_Zjet_FF_calculation.conf
+	* M       data/measure_ttbar_SR_SF/FakeFactorConfigs_Nominal.conf
+	* M       data/applyFakeFactorToZjet/FakeFactorConfigs_Nominal.conf
+	* M	  data/applyFakeFactorToZjet/FakeFactorConfigs_MCClosure_DenTimesFF.conf
+	* M	  data/applyFakeFactorToZjet/FakeFactorConfigs_MCClosure_Numerator.conf
+	* M       data/measure_ttbar_SR_estimate/FakeFactorConfigs_Nominal.conf
+
+2016-12-19 Joseph Reichert <Joseph.Reichert@cern.ch>
+	* Updating plotting macro and some sample names
+	* M       Root/ZplusJetsFakeFactorCalculator.cxx
+	* M       macros/measureTtbarSREstimate.cxx
+	* M       macros/takeRatioForFakeFactor.cxx
+	* M       macros/measureTtbarZCRSF.cxx
+	* M       macros/analyzeDenTimesFF.cxx
+	* M       macros/measureTtbarSRSF.cxx
+
+2016-12-15 Joseph Reichert <Joseph.Reichert@cern.ch>
+	* Removing accept(EventDef*) from fake factor calculator, so the
+	EventDef can be modified (for user to get back the lepton indices)
+	* Using safer EventDef initial values
+	* Adding script to process EWK 3L ntuples
+
+
+2016-08-22 Joseph Reichert <Joseph.Reichert@cern.ch>
+	* Initial import of LeptonFakeFactorTools
+	* Z+jets event selection mostly in place, but some refining necessary.
+	* Early implementation of tool for applying the fake factors also in
+	place
+
