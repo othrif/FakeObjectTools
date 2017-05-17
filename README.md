@@ -1,8 +1,9 @@
 Fake Object Tools 
 
 This repository gathers several tools to estimate the fake lepton and charge flip background estimation in the SUSY group.
+
 The tools currently available: 
-* Dynamic Matrix Method for fake leptons
+* Dynamic Matrix Method
 * MC-template Method
 * Fake Factor Method
 
