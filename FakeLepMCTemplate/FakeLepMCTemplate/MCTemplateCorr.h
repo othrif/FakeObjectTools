@@ -11,30 +11,31 @@
 /* Before the event loop, declare:  MCTemplateCorr fakeCorr;                 */
 /*                                                                           */
 /* In the event loop, for each event add the collection of signal leptons    */
-/* The truth variables you need to pass are: 
+/* The truth variables you need to pass are:
 /* For electrons: El_truthType, El_truthOrigin, El_firstEgMotherPdgId
 /* For muons: Mu_type, Mu_origin
 /* Be sure to pass the reconstructed charge and the the value of the
 /* PdgId, not absolute values!!
 /*
-	  double fakeW=1;
+	  MCTemplateCorr fakeCorr;
+    double fakeW=1;
 	  // Fake weight
 	  for (int lepi = 0; lepi < lep_signal.num_leptons; lepi++)
 		{
-		  if(lep_signal.is_electron[lepi]) 
+		  if(lep_signal.is_electron[lepi])
 			fakeCorr.AddElectron(evt.ChannelNumber, lep_signal.pT[lepi], lep_signal.charge[lepi], evt.El_truthType[lep_signal.index[lepi]],  evt.El_truthOrigin[lep_signal.index[lepi]], evt.El_firstEgMotherPdgId[lep_signal.index[lepi]]);
-		  else 
+		  else
 			fakeCorr.AddMuon(evt.ChannelNumber, lep_signal.pT[lepi], lep_signal.charge[lepi], evt.Mu_type[lep_signal.index[lepi]],  evt.Mu_origin[lep_signal.index[lepi]]);
 			}
 	  double uncertainty;
-	  fakeW = fakeCorr.GetFakeCorrection(uncertainty);	  
+	  fakeW = fakeCorr.GetFakeCorrection(uncertainty);
 */
 /*                                                                           */
 /*                                                                           */
 /***** C 2016 ****************************************************************/
 
-#ifndef FakeLepMCTemplate_h
-#define FakeLepMCTemplate_h
+#ifndef MCTemplateCorr_h
+#define MCTemplateCorr_h
 
 #include "TF1.h"
 
@@ -55,9 +56,9 @@ struct my_lep {
   bool is_fake_HF[MAX_LEPT];
   bool is_fake_LF[MAX_LEPT];
   bool is_chmisid[MAX_LEPT];
-}; 
+};
 
-// refers to individual lepton and not the collection 
+// refers to individual lepton and not the collection
 struct srtLep {
   double pT;
   int ind;
@@ -66,7 +67,7 @@ struct srtLep {
 class MCTemplateCorr
 {
  public:
-  
+
   MCTemplateCorr();
   ~MCTemplateCorr() {}
   void AddElectron(int channelnumber, double pt_in_mev, int charge, int type, int origin, int pdgid);
@@ -77,11 +78,11 @@ class MCTemplateCorr
   void Reset();
 
  private:
-  void classify_leptons(my_lep *lep);  
+  void classify_leptons(my_lep *lep);
   static int lep_pt_comparator(const void * a, const void * b);
   void sortLeptons(my_lep *lep);
 
- protected:    
+ protected:
   bool m_reset;
   my_lep m_lepinfo;
   int m_index=0;

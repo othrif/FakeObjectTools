@@ -26,12 +26,12 @@
   SUSY          = 22
   FSRPhot       = 40
   BottomMeson   = 26
-  BBbarMeson    = 29  
+  BBbarMeson    = 29
   BottomBaryon  = 33
 */
 
 
-#include "MCTemplateCorr.h"
+#include "FakeLepMCTemplate/MCTemplateCorr.h"
 
 MCTemplateCorr::MCTemplateCorr()
 {
@@ -62,12 +62,12 @@ double MCTemplateCorr::GetFakeCorrection(double& unc)
 
 	  }
 
-  double fakeCorr = 1.;  
+  double fakeCorr = 1.;
 
   int index_fake_HF = -1;
   int index_fake_LF = -1;
   int index_chmisid = -1;
-  
+
   int num_lept = 0;
   for (int i = 0; i < m_lepinfo.num_leptons && num_lept < 3; i++) {
 	num_lept++;
@@ -80,7 +80,7 @@ double MCTemplateCorr::GetFakeCorrection(double& unc)
 	  break;
 	}
   }
-  
+
   num_lept = 0;
   for (int i = 0; i < m_lepinfo.num_leptons && num_lept < 3; i++) {
 	num_lept++;
@@ -131,7 +131,7 @@ void MCTemplateCorr::AddElectron(int channelnumber, double pt, int charge, int t
 {
 
   if(debug_me){
-	if (m_index == 0) 
+	if (m_index == 0)
 	  printf("----------------Start of event----------------\n");
 
 	printf("AddElectron::Added an electron with pt=%.2fGeV charge=%+d type=%d origin=%d pdgid=%d \n",pt/1000.,charge, type,origin,pdgid);
@@ -153,9 +153,9 @@ void MCTemplateCorr::AddElectron(int channelnumber, double pt, int charge, int t
 void MCTemplateCorr::AddMuon(int channelnumber, double pt, int charge, int type, int origin)
 {
   if(debug_me){
-	if (m_index == 0) 
+	if (m_index == 0)
 	  printf("----------------Start of event----------------\n");
-	
+
 	printf("AddMuon::Added a muon with pt=%.2fGeV charge=%+d type=%d origin=%d \n",pt/1000.,charge,type,origin);
   }
 
@@ -179,7 +179,7 @@ void MCTemplateCorr::classify_leptons(my_lep *lep){
 	std::cerr << "ERROR [MCTemplateCorr]: Well, there is an incorrect usage of cuts!!!!\n";
 	//	throw;
   }
-  
+
   bool iso = true;
   bool HF_e = false;
   bool HF_m = false;
@@ -192,18 +192,18 @@ void MCTemplateCorr::classify_leptons(my_lep *lep){
     lep->is_chmisid[i] = false;
     num_lept++;
   }
-  
+
   num_lept = 0;
   for (int i = 0; i < lep->num_leptons && num_lept < 3; i++) {
     num_lept++;
-	
+
     if(lep->is_electron[i]){
 
       // Prompt electron
       iso &= ( lep->truthType[i]==2 || (lep->truthOrigin[i] == 5 && fabs(lep->truthPdgId[i])==11));
 
 	  // Charge flip electron
-	  chmisId = ( lep->num_leptons==2 && (lep->recoCharge[i]*lep->truthPdgId[i] > 0) );              
+	  chmisId = ( lep->num_leptons==2 && (lep->recoCharge[i]*lep->truthPdgId[i] > 0) );
 
       // electron from HF
       HF_e = ( lep->truthOrigin[i]==26 || lep->truthOrigin[i]==33 ); // el from b hadrons
@@ -213,7 +213,7 @@ void MCTemplateCorr::classify_leptons(my_lep *lep){
     else {
 
 	  // Prompt muon
-      iso &= ( lep->truthType[i]==6 ); 
+      iso &= ( lep->truthType[i]==6 );
 
 	  // muon from HF
       HF_m =  ( lep->truthOrigin[i]==26 || lep->truthOrigin[i]==33 ); // mu from b hadrons
@@ -229,7 +229,7 @@ void MCTemplateCorr::classify_leptons(my_lep *lep){
 		lep->is_fake_HF[i] = false;
 		lep->is_fake_LF[i] = false;
 		lep->is_chmisid[i] = true;
-      } 
+      }
     } else if (HF_e || HF_m){ // non-prompt leptons from HF
       lep->is_fake_HF[i] = true;
       lep->is_fake_LF[i] = false;
@@ -243,7 +243,7 @@ void MCTemplateCorr::classify_leptons(my_lep *lep){
 
 
   }
-  
+
   return;
 }
 
@@ -263,7 +263,7 @@ int MCTemplateCorr::lep_pt_comparator(const void * a, const void * b) {
 //----------------------------------------------------------------------------
 void MCTemplateCorr::sortLeptons(my_lep *lep) {
 
-  
+
   srtLep lep_srt[MAX_LEPT];
   my_lep temp_lep;
 
@@ -313,7 +313,7 @@ void  MCTemplateCorr::SetMCResult(int channelnum)
 	  correction[i] = pythia_correction[i];
 	  uncertainty[i] = pythia_uncertainty[i];
 	}
-  
+
 	// Sherpa
   else if( channelnum == 410250 || channelnum == 410251 || channelnum == 410252 || (364156 <= channelnum &&  channelnum <= 364197) || (364100 <= channelnum && channelnum <= 364141)  || (361468 <= channelnum && channelnum <= 361491) )
   {
@@ -336,11 +336,12 @@ void  MCTemplateCorr::SetMCResult(int channelnum, double *corr, double *unc)
   LF_EL_Correction = corr[3];
   LF_MU_Correction = corr[4];
 
-  HF_EL_Uncert = unc[0];
-  HF_MU_Uncert = unc[1];
-  LF_EL_Uncert = unc[2];
-  LF_MU_Uncert = unc[3];
-  chMisId_Uncert = unc[4];
+  chMisId_Uncert = unc[0];
+  HF_EL_Uncert = unc[1];
+  HF_MU_Uncert = unc[2];
+  LF_EL_Uncert = unc[3];
+  LF_MU_Uncert = unc[4];
+
 
 
   return;

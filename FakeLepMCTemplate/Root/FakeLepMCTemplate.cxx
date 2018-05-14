@@ -27,7 +27,6 @@ int FakeLepMCTemplate::Initialize(const std::string path, const std::string *fil
     if( !f_data->IsOpen() )throw "input file not opened";
 
     for( long j = 0; j < NumCRs; j++ ){
-	  std::cout << CRnames[j].data() << std::endl;
       TH1D * t = (TH1D*) f_data->Get( CRnames[j].data() )->Clone();
       if( t == 0 )throw "missing CR histogram";
       t->SetDirectory( 0 );
@@ -70,12 +69,12 @@ int FakeLepMCTemplate::DoFit(double *corr, double *err){
   for (int j = 0; j < nfit; j++) {
 	minimizer->SetParameter(j, name[j], vstart[j], step[j], 0., 10.);}
 
-  minimizer->ExecuteCommand("CAL", arglist, 1); 	
+  minimizer->ExecuteCommand("CAL", arglist, 1);
   minimizer->ExecuteCommand("SET NOG", arglist, 0);
   minimizer->ExecuteCommand("MINIMIZE", arglist, 0);
   minimizer->ExecuteCommand("MIGRAD", arglist, 0);
   minimizer->ExecuteCommand("HESSE", arglist, 0);
-  minimizer->ExecuteCommand("CAL", arglist, 1); 	
+  minimizer->ExecuteCommand("CAL", arglist, 1);
 
 
   for (int j = 0; j < nfit; j++) {
@@ -105,11 +104,11 @@ double FakeLepMCTemplate::myFunction(double par[]){
 	sf = 1.0;
 
 	for(int n = 0; n < nsf; n++){
-	  if (i == 2+n) 
-		sf = fabs(par[n]); 
+	  if (i == 2+n)
+		sf = fabs(par[n]);
 	}
 
-	for( int j = 0; j < ncr; j++ ){ 
+	for( int j = 0; j < ncr; j++ ){
 	  hsum.at( j )->Add( bkg[i][j], sf);
 	}
 

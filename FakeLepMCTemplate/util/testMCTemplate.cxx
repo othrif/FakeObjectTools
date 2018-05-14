@@ -12,7 +12,7 @@
 /***** C 2016 ****************************************************************/
 
 // Detailed instructions:
-// Check out the package: 
+// Check out the package:
 // svn co svn+ssh://svn.cern.ch/reps/atlasoff/PhysicsAnalysis/SUSYPhys/FakeObjectTools/trunk/FakeLepMCTemplate FakeLepMCTemplate
 //
 // Compile package:
@@ -21,7 +21,7 @@
 // rc find_packages
 // rc clean
 // rc compile
-// 
+//
 // To run this example, simply type: testMCTemplate
 // The example reads histograms located in my public area: /afs/cern.ch/user/o/othrif/public/MCtemplates
 // Perform a fit of 5 templates: template1, template2, template3, template4, template5
@@ -32,15 +32,16 @@
 // For example: data.root contains histograms "CR1", ...,"CR6" which refer to the distributions
 //              used in the fit for each CR, the distributions can be different in the same file
 //              but they need to be the same for the rest of the files
-// 
+//
 // The main functions that need to be called are: FakeLepMCTemplate::Initialize and FakeLepMCTemplate::DoFit
 // Initialize() takes as arguments the path of the name of the root files (files) of data, MC real contribution, and MC fake templates,
 // (the order in this case matters: data first, real contribution second, and then how many templates you decide to have)
 // the number of files to pass (NumFiles), the number of control regions (NumCRs), and the number of correction factors you expect to get back (NumSFs)
-// DoFit returns the corrections and errors 
+// DoFit returns the corrections and errors
 
 //here are the project-specific files
 #include "FakeLepMCTemplate/FakeLepMCTemplate.h"
+#include "FakeLepMCTemplate/MCTemplateCorr.h"
 
 //-----------------------------------------------------------------------------
 // Main routine
@@ -51,6 +52,9 @@ int main( ) {
 
   std::cout << "Test MC template method code" << std::endl;
 
+//------------------------
+// Perform the fit
+//------------------------
   const int NumFiles = 7;
   const int NumCRs = 6;
   const int NumSFs = 5;
@@ -66,12 +70,31 @@ int main( ) {
   test.DoFit(corrections, errors);
 
   for(int i = 0; i < NumSFs; i++){
-	std::cout << setprecision(3);
-	std::cout  << "Correction to Fake Template " << i+1 << " -> " << setw(5) << left<< corrections[i] << setw(5) << left << " +/- " << setw(5) << left << errors[i] << std::endl;
-  }
+   std::cout << setprecision(3);
+   std::cout  << "Correction to Fake Template " << i+1 << " -> " << setw(5) << left<< corrections[i] << setw(5) << left << " +/- " << setw(5) << left << errors[i] << std::endl;
+ }
+
+//------------------------------------------
+// Applying the weights in an example event
+//------------------------------------------
+std::cout << "\n ========================================================== \n ";
+std::cout << "\nAn independent application of the tool to apply weights to fake classified events" << std::endl;
+std::cout << "Let's give an example on how to apply a fake related weight based on how the event is classified" << std::endl;
+MCTemplateCorr fakeCorr;
+
+// Event: El HF + Mu from W in Sherpa MC
+std::cout << "In this example we take a SS event of a Sherpa MC with electron from HF and muon from W:" << endl;
+// AddElectron(int channelnumber, double pt_in_mev, int charge, int type, int origin, int pdgid);
+fakeCorr.AddElectron(410250, 100000, -1, 4,  26, 11);
+// AddMuon(int channelnumber, double pt_in_mev, int charge, int type, int origin);
+fakeCorr.AddMuon(410250, 80000, -1, 6, 12);
+double uncertainty;
+double fakeW = fakeCorr.GetFakeCorrection(uncertainty);
+
+std::cout << "\nFake related MC weight = " << fakeW << " +/- " << uncertainty << std::endl;
 
 
-  gSystem->Exit(0);
-  return 0;
+ gSystem->Exit(0);
+ return 0;
 
 }
